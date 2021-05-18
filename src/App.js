@@ -3,16 +3,18 @@ import './App.css';
 
 import firebase from './firebase'
 import { useState } from 'react';
+import { TodoList } from './TodoList';
 
 function App() {
     const [user, setUser] = useState(null)
+    
 
     async function loginGoogle() {
         const provedor = new firebase.auth.GoogleAuthProvider()
         let resultado = await firebase.auth().signInWithPopup(provedor)
         if(resultado) {
             let novousuario = {
-                id : resultado.user.id,
+                id : resultado.user.uid,
                 name : resultado.user.displayName
             }
 
@@ -34,6 +36,7 @@ function App() {
             <div className="App">
                 <h1>Logado</h1>
                 <h3>Usuário: {user.name}</h3>
+                <TodoList uid={user.id} />
             </div>
         );
     }
